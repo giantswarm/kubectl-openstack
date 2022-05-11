@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -132,12 +133,17 @@ func mainE(ctx context.Context) error {
 
 	localClouds := types.Clouds{}
 	cloudsFileData, err := os.ReadFile(cloudsFile)
-	if err != nil {
-		return err
+	if errors.Is(err, os.ErrNotExist) {
+		cloudsFileData = []byte{}
+	} else if err != nil {
+		return fmt.Errorf("reading clouds file: %w", err)
 	}
 	err = yaml.Unmarshal(cloudsFileData, &localClouds)
 	if err != nil {
 		return fmt.Errorf("unmarshaling YAML data from %q: %w", cloudsFile, err)
+	}
+	if localClouds.Clouds == nil {
+		localClouds.Clouds = make(map[string]map[string]interface{})
 	}
 
 	cloudName := managementCluster + "-" + cluster
@@ -159,9 +165,14 @@ func mainE(ctx context.Context) error {
 		return fmt.Errorf("marshalling updated clouds YAML: %w", err)
 	}
 
-	err = os.WriteFile(cloudsFile, cloudsData, 0644)
+	err = os.MkdirAll(filepath.Dir(cloudsFile), 0700)
 	if err != nil {
-		return err
+		return fmt.Errorf("creating clouds file directory: %w", err)
+	}
+
+	err = os.WriteFile(cloudsFile, cloudsData, 0600)
+	if err != nil {
+		return fmt.Errorf("writing clouds file: %w", err)
 	}
 
 	fmt.Printf("\n")
