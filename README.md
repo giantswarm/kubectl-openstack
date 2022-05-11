@@ -2,7 +2,7 @@
 
 # kubectl-openstack
 
-A tool that helps you manage OpenStack infrastructure CLI access for Cluster API OpenStack (CAPO) clusters.
+A tool that helps you manage OpenStack infrastructure CLI access for [Cluster API OpenStack (CAPO)](https://github.com/kubernetes-sigs/cluster-api-provider-openstack) clusters.
 
 ## Usage
 
