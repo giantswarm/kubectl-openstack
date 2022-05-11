@@ -244,10 +244,11 @@ func findOpenStackCluster(ctx context.Context, clientset *kubernetes.Clientset, 
 
 	var r *unstructured.Unstructured
 	count := 0
-	for _, rr := range list.Items {
+	for i := range list.Items {
+		rr := &list.Items[i]
 		if rr.GetName() == name {
 			count++
-			r = &rr
+			r = rr
 		}
 	}
 
