@@ -1,5 +1,8 @@
 [![CircleCI](https://circleci.com/gh/giantswarm/kubectl-openstack.svg?style=shield)](https://circleci.com/gh/giantswarm/kubectl-openstack)
 
+# This repo is currently UNMAINTAINED.
+**If you want to work on it, please fork.**
+
 # kubectl-openstack
 
 A tool that helps you manage OpenStack infrastructure CLI access for [Cluster API OpenStack (CAPO)](https://github.com/kubernetes-sigs/cluster-api-provider-openstack) clusters.
